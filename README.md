@@ -1,3 +1,12 @@
+# 🎯 YOLOv8 Drone Detection
+
+![Status](https://img.shields.io/badge/Status-Stable-brightgreen)
+![Framework](https://img.shields.io/badge/Framework-Ultralytics%20YOLOv8-blue)
+![Dataset](https://img.shields.io/badge/Data-Custom%20UAV%20Dataset-yellow)
+![inference](https://img.shields.io/badge/Inference-Real--Time-red)
+
+**High-precision object detection system optimized for identifying and tracking various UAV types in diverse weather conditions.**
+
 # ?? Real-Time UAV Detection & Tracking (YOLOv8)
 **AI-Driven Aerial Surveillance and Object Recognition**
 
