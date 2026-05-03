@@ -6,7 +6,7 @@
 ![inference](https://img.shields.io/badge/Inference-Real--Time-red)
 
 
-![Drone Detection Demo](detection_demo.gif)
+
 
 # YOLOv8 Real-Time Drone Detection in AirSim
 
