@@ -1,26 +1,33 @@
-# 🎯 YOLOv8 Drone Detection
+# 🎯 YOLOv8 Real-Time Drone Detection in AirSim
 
-![Status](https://img.shields.io/badge/Status-Stable-brightgreen)
-![Framework](https://img.shields.io/badge/Framework-Ultralytics%20YOLOv8-blue)
-![Dataset](https://img.shields.io/badge/Data-Custom%20UAV%20Dataset-yellow)
-![inference](https://img.shields.io/badge/Inference-Real--Time-red)
-
-
-
-
-# YOLOv8 Real-Time Drone Detection in AirSim
+[![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
+[![Framework](https://img.shields.io/badge/Framework-Ultralytics%20YOLOv8-blue?style=flat-square)](https://github.com/ultralytics/ultralytics)
+[![Dataset](https://img.shields.io/badge/Data-Custom%20UAV%20Dataset-yellow?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
+[![Inference](https://img.shields.io/badge/Inference-Real--Time-red?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
 
 Real-time UAV detection pipeline using YOLOv8n, pulling live frames from Microsoft AirSim and running inference to detect and track drones with bounding boxes. Built to explore how computer vision can support counter-drone or multi-drone coordination use cases in simulation before moving to hardware.
 
+---
+
+## 🎬 Detection Demo
+
 ![Detection Demo](detection_demo.gif)
 
-## What this does
+> YOLOv8n running at ~28 FPS on AirSim frames — bounding boxes with class labels and confidence scores rendered in real time across 4 drone profiles.
+
+---
+
+## What This Does
 
 The pipeline connects to AirSim via its Python API, captures frames from the drone's front camera, runs YOLOv8 inference on each frame, and renders bounding boxes with class labels and confidence scores in real time. `check.py` handles the AirSim connection and frame loop; the model and inference logic sit in `src/`.
 
+---
+
 ## Why YOLOv8n
 
-I started with YOLOv8s but it dropped below real-time at 640×640 on my test machine. YOLOv8n at 320×320 runs at ~28 FPS in AirSim with detection confidence above 0.7 for most drone profiles — good enough for the use case.
+Started with YOLOv8s but it dropped below real-time at 640×640 on the test machine. YOLOv8n at 320×320 runs at ~28 FPS in AirSim with detection confidence above 0.7 for most drone profiles — the right balance for this use case.
+
+---
 
 ## Stack
 
@@ -31,23 +38,11 @@ I started with YOLOv8s but it dropped below real-time at 640×640 on my test mac
 | Language | Python 3.x |
 | Libraries | ultralytics, airsim, opencv-python, numpy |
 
-## Setup
-
-```bash
-pip install -r requirements.txt
-# Start AirSim in any environment with a drone
-python check.py
-```
-
-The script auto-connects to AirSim on localhost. Tested on AirSim Neighborhood environment.
-
-## Sample output
-
-Detection frames at 10-frame intervals are saved in the repo root (`frame_0000.png` through `frame_0090.png`) so you can see what the model detects without running AirSim yourself.
+---
 
 ## Performance
 
-| Resolution | FPS | Avg confidence |
+| Resolution | FPS | Avg Confidence |
 |---|---|---|
 | 640×640 | ~11 | 0.81 |
 | 320×320 | ~28 | 0.74 |
@@ -55,10 +50,73 @@ Detection frames at 10-frame intervals are saved in the repo root (`frame_0000.p
 
 320×320 is the sweet spot for real-time use.
 
-## What I learned
+---
 
-YOLOv8 detects drones well in clear conditions but confidence drops significantly in AirSim's dusk lighting. Fine-tuning on rendered low-light frames brought it back above 0.7. The custom UAV dataset used for fine-tuning covers 4 drone profiles: quadrotor, fixed-wing, hexacopter, nano.
+## 🛠️ How to Run
+
+### 1. Prerequisites
+- **Python 3.9+** installed
+- A dedicated GPU is recommended — CPU mode is supported but will run below real-time at higher resolutions
+
+### 2. Set Up AirSim
+1. Download a pre-compiled AirSim binary from the [AirSim releases page](https://github.com/Microsoft/AirSim/releases) — **AirSimNH (Neighborhood)** is recommended.
+2. Unzip and launch the executable (`AirSimNH.exe` on Windows, `./AirSimNH.sh` on Linux).
+3. When prompted **"Would you like to use car instead of quadcopter?"** click **No**.
+
+### 3. Clone & Install Dependencies
+```bash
+git clone https://github.com/yogesh031020/yolov8-aerial-detection.git
+cd yolov8-aerial-detection
+pip install -r requirements.txt
+```
+
+### 4. Run the Detection Pipeline
+```bash
+python check.py
+```
+
+The script auto-connects to AirSim on localhost, captures frames from the drone's front camera, and begins real-time YOLOv8 inference with live bounding box rendering.
+
+### 5. Run Without AirSim (Static Frame Mode)
+To test inference on the saved sample frames without launching AirSim:
+```bash
+python src/detect_static.py --source docs/sample_frames/
+```
+
+Sample detection frames are included in `docs/sample_frames/` so you can verify the model output immediately.
+
+---
+
+## Sample Output
+
+Detection frames across 10-frame intervals are available in `docs/sample_frames/` — 4 drone profiles: quadrotor, fixed-wing, hexacopter, nano.
+
+---
+
+## What I Learned
+
+- YOLOv8 detects drones well in clear conditions but confidence drops in AirSim's dusk lighting — fine-tuning on rendered low-light frames brought it back above 0.7
+- The custom UAV dataset covers 4 drone profiles: quadrotor, fixed-wing, hexacopter, nano
+
+---
 
 ## Status
 
 Stable. Next: test detection-triggered autonomous interception via DroneKit commands.
+
+---
+
+## Repository Layout
+
+```
+yolov8-aerial-detection/
+├── check.py               # AirSim connection, frame capture loop & live inference
+├── requirements.txt       # Python dependency list
+├── src/
+│   ├── model.py           # YOLOv8 model loader and inference wrapper
+│   └── detect_static.py   # Offline inference on saved frames
+├── docs/
+│   └── sample_frames/     # 10 representative detection output frames
+├── detection_demo.gif     # Live inference demo
+└── LICENSE
+```
