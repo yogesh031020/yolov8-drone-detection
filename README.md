@@ -1,9 +1,9 @@
 # 🎯 YOLOv8 Real-Time Drone Detection in AirSim
 
-[![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
+[![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=flat-square)](https://github.com/yogesh031020/yolov8-drone-detection)
 [![Framework](https://img.shields.io/badge/Framework-Ultralytics%20YOLOv8-blue?style=flat-square)](https://github.com/ultralytics/ultralytics)
-[![Dataset](https://img.shields.io/badge/Data-Custom%20UAV%20Dataset-yellow?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
-[![Inference](https://img.shields.io/badge/Inference-Real--Time-red?style=flat-square)](https://github.com/yogesh031020/yolov8-aerial-detection)
+[![Dataset](https://img.shields.io/badge/Data-Custom%20UAV%20Dataset-yellow?style=flat-square)](https://github.com/yogesh031020/yolov8-drone-detection)
+[![Inference](https://img.shields.io/badge/Inference-Real--Time-red?style=flat-square)](https://github.com/yogesh031020/yolov8-drone-detection)
 
 Real-time UAV detection pipeline using YOLOv8n, pulling live frames from Microsoft AirSim and running inference to detect and track drones with bounding boxes. Built to explore how computer vision can support counter-drone or multi-drone coordination use cases in simulation before moving to hardware.
 
@@ -65,8 +65,8 @@ Started with YOLOv8s but it dropped below real-time at 640×640 on the test mach
 
 ### 3. Clone & Install Dependencies
 ```bash
-git clone https://github.com/yogesh031020/yolov8-aerial-detection.git
-cd yolov8-aerial-detection
+git clone https://github.com/yogesh031020/yolov8-drone-detection.git
+cd yolov8-drone-detection
 pip install -r requirements.txt
 ```
 
@@ -76,20 +76,6 @@ python check.py
 ```
 
 The script auto-connects to AirSim on localhost, captures frames from the drone's front camera, and begins real-time YOLOv8 inference with live bounding box rendering.
-
-### 5. Run Without AirSim (Static Frame Mode)
-To test inference on the saved sample frames without launching AirSim:
-```bash
-python src/detect_static.py --source docs/sample_frames/
-```
-
-Sample detection frames are included in `docs/sample_frames/` so you can verify the model output immediately.
-
----
-
-## Sample Output
-
-Detection frames across 10-frame intervals are available in `docs/sample_frames/` — 4 drone profiles: quadrotor, fixed-wing, hexacopter, nano.
 
 ---
 
@@ -109,14 +95,10 @@ Stable. Next: test detection-triggered autonomous interception via DroneKit comm
 ## Repository Layout
 
 ```
-yolov8-aerial-detection/
+yolov8-drone-detection/
 ├── check.py               # AirSim connection, frame capture loop & live inference
 ├── requirements.txt       # Python dependency list
-├── src/
-│   ├── model.py           # YOLOv8 model loader and inference wrapper
-│   └── detect_static.py   # Offline inference on saved frames
-├── docs/
-│   └── sample_frames/     # 10 representative detection output frames
 ├── detection_demo.gif     # Live inference demo
+├── src/                   # Model loader and inference wrapper
 └── LICENSE
 ```
